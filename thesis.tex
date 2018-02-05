@@ -1,0 +1,33 @@
+\documentclass[minted]{thesis}
+% Required
+\title{Titel meiner Diplomarbeit}
+\author{Maximilian Müller \and Markus Reichl \and Dragana Sunaric \and Kevin Waldock}
+% Optional
+\mysubtitle{Optionaler Untertitel}
+\myteacher{Michael Borko}
+% \mylanguage{english}				% Set thesis language to english
+% \setcode{frame=single} 			% Add a frame to codes
+% \setcode{bgcolor=AlmostWhite}		% Add a background to codes (minted only)
+% \usemintedstyle{trac} 			% autumn, rainbow_dash, tango (default), trac
+\begin{document}
+% German abstract
+\begin{abstract}[ngerman]
+\input{chapters/zusammenfassung}
+\end{abstract}
+% English abstract
+\begin{abstract}[english]
+\input{chapters/abstract}
+\end{abstract}
+% Table of contents
+\tableofcontents\glsresetall
+\pagestyle{fancy}
+
+\include{chapters/vorwort}
+\include{chapters/danksagung}
+\include{chapters/einleitung}
+% Chapters by authors
+\include{chapters/retrospektive}
+\include{chapters/conclusio}
+
+% \glsaddall 		% Add all glossary entries to printglossaries
+\end{document}
