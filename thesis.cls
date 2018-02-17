@@ -105,7 +105,7 @@
 \newcommand\myteacher[1]{\renewcommand\@myteacher{#1}}
 
 \newcommand\@currentauthor{}        % Use \and for multiple authors
-\newcommand\setauthor[1]{\renewcommand\@setauthor{#1}}
+\newcommand\setauthor[1]{\renewcommand\@currentauthor{#1}}
 
 
 % # Package configuration
@@ -243,6 +243,8 @@
 
     \newcommand\codein[3][]{\lstinline[language=#2,#1]\relax#3\relax}               % Inline code
     \newcommand\inputcode[3][]{\lstinputlisting[language=#2,#1]{\detokenize{#3}}}   % Input code
+    % Alias for @kevsoft
+    \newcommand\codeinline{\codein}
 
     \newcommand\codeline[3][]{\begin{flushleft}
         \lstinline[language=#2,#1]\relax#3\relax            % Single line of code
