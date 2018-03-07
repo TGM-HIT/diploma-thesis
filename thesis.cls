@@ -147,7 +147,7 @@
         \IfFileExists{images/logo-right.png}{\includegraphics[height=2cm]{images/logo-right.png}}{}
     \fi
     
-    \vskip 3cm      % Minimum margin
+    \vskip 2cm      % Minimum margin
 
     \begin{center}
         \if\relax\@myschool\relax\else  {\LARGE\@myschool}
@@ -156,8 +156,14 @@
             ~\\\vspace{0.5em}\fi
         \if\relax\@mydivision\relax\else  {\large\@mydivision}\fi
 
-        \vskip 2cm  % Minimum margin
+        \vskip 1.5cm  % Minimum margin
+
+        \IfFileExists{images/logo.png}{\includegraphics[height=2.5cm]{images/logo.png}}{}
+
+        \vskip 1cm  % Minimum margin
+        
         \rule{8cm}{0.4pt}
+        
         \vskip 1cm
 
         {\Huge\textbf\thetitle}                                     ~\\\vspace{1em}
@@ -167,8 +173,8 @@
         \rule{8cm}{0.4pt}
         \vskip 2.5cm
         
-        \theauthor                                                  ~\\\vspace{2em}
-        \if\relax\@myteacher\relax\else     \@myteacher             ~\\\vspace{1cm}\fi
+        \theauthor                                                      ~\\\vspace{2em}
+        \if\relax\@myteacher\relax\else \textbf{Betreuer:} \@myteacher  ~\\\vspace{1cm}\fi
         \@date
     \end{center}
 
