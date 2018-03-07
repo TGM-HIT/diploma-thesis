@@ -166,7 +166,7 @@
         {\Huge\textbf\thetitle}                                     ~\\\vspace{1.5em}
         \if\relax\@mysubtitle\relax\else    {\LARGE\@mysubtitle}    \fi
 
-        \vskip 2.5cm
+        \vfill
         
         \theauthor                                                      ~\\\vspace{2em}
         \if\relax\@myteacher\relax\else \textbf{Betreuer:} \@myteacher  ~\\\vspace{2em}\fi
