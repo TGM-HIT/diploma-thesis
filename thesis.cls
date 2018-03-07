@@ -156,11 +156,12 @@
             ~\\\vspace{0.5em}\fi
         \if\relax\@mydivision\relax\else  {\large\@mydivision}\fi
 
-        \vskip 2.5cm  % Minimum margin
+        \vskip 3cm  % Minimum margin
 
-        \IfFileExists{images/logo.png}{\includegraphics[height=3cm]{images/logo.png}}{}
-
-        \vskip 1.5cm  % Minimum margin        
+        \IfFileExists{images/logo.png}{
+            \includegraphics[height=3cm]{images/logo.png}
+            \vskip 1.5cm  % Minimum margin
+        }{}        
         
         {\Huge\textbf\thetitle}                                     ~\\\vspace{1.5em}
         \if\relax\@mysubtitle\relax\else    {\LARGE\@mysubtitle}    \fi
