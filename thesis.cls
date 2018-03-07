@@ -141,7 +141,7 @@
 % ## Title
 \makeatletter
 \renewcommand\maketitle{
-    \iflogos~\\     % Print logos
+    \iflogos~\\         % Print logos
         \IfFileExists{images/logo-left.png}{\includegraphics[height=2cm]{images/logo-left.png}}{}
         \hfill
         \IfFileExists{images/logo-right.png}{\includegraphics[height=2cm]{images/logo-right.png}}{}
@@ -156,17 +156,17 @@
             ~\\\vspace{0.5em}\fi
         \if\relax\@mydivision\relax\else  {\large\@mydivision}\fi
 
-        \vskip 3cm  % Minimum margin
+        \vskip 3cm    % Minimum margin
 
         \IfFileExists{images/logo.png}{
-            \includegraphics[height=3cm]{images/logo.png}
-            \vskip 1.5cm  % Minimum margin
+            \includegraphics[height=2.5cm]{images/logo.png}
+            \vskip 2em    % Minimum margin
         }{}        
         
         {\Huge\textbf\thetitle}                                     ~\\\vspace{1.5em}
         \if\relax\@mysubtitle\relax\else    {\LARGE\@mysubtitle}    \fi
 
-        \vfill
+        \vskip 3cm     % Minimum margin
         
         \theauthor                                                      ~\\\vspace{2em}
         \if\relax\@myteacher\relax\else \textbf{Betreuer:} \@myteacher  ~\\\vspace{2em}\fi
