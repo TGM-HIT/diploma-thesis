@@ -21,6 +21,10 @@
 \newif\ifnatbib\natbibfalse
 \DeclareOption{natbib}{\bibtrue\natbibtrue}
 
+% ## Skip line instead of indent after blank line
+\newif\ifparskip\parskipfalse
+\DeclareOption{parskip}{\parskiptrue}
+
 % # Pass options
 \ProcessOptions \relax
 % ## Load article class
@@ -87,6 +91,9 @@
     \RequirePackage{listingsutf8}           % UTF-8 Input support for listings
     \IfFileExists{lst.tex}{\input{lst}}{}   % Load lstlistings config if exists
 \fi
+
+% ## Skip lines instead of indents after a blank line
+\ifparskip\RequirePackage[parfill]{parskip}\fi
 
 % # Variables
 \newcommand\@mysubtitle{}           % Untertitel
