@@ -25,6 +25,10 @@
 \newif\ifparskip\parskipfalse
 \DeclareOption{parskip}{\parskiptrue}
 
+% ## Do not color hyperlinks
+\newif\ifcolor\colortrue
+\DeclareOption{nocolor}{\colorfalse}
+
 % # Pass options
 \ProcessOptions \relax
 % ## Load article class
@@ -121,8 +125,12 @@
 \floatplacement{table}{H}   % Override default table float
 \floatplacement{figure}{H}  % Override default figure float
 
-\hypersetup{breaklinks=true, colorlinks=true,   % Hyperlinks
-            linkcolor=MyBlue, urlcolor=MyBlue, citecolor=MyBlue}
+% Hyperlinks
+\ifcolor\hypersetup{breaklinks=true, colorlinks=true,   % Color hyperlinks
+                    linkcolor=MyBlue, urlcolor=MyBlue, citecolor=MyBlue}
+\else\hypersetup{breaklinks=true, colorlinks=false,     % Do not color hyperlinks
+                    linkcolor=Black, urlcolor=Black, citecolor=Black}
+\fi
 
 % ## Footnotes
 \def\arraystretch{1.5}
@@ -141,8 +149,8 @@
 \renewcommand{\footrulewidth}{\headrulewidth}
 
 % ## Add glossary / bibliography entries if they exist
-\IfFileExists{glo.tex}{\input{glo}\makeglossaries}{}
-\IfFileExists{bib.bib}{\addbibresource{bib}}{}
+\IfFileExists{glossaries.tex}{\input{glossaries}\makeglossaries}{}
+\IfFileExists{bibliography.bib}{\addbibresource{bibliography}}{}
 
 % # Makros
 % ## Title
@@ -273,7 +281,7 @@
     % \glsaddall        % Also list unused glossary entries
     \printglossaries    % List used glossary entries
 
-    \ifnatbib\bibliography{bib} % List bibliography entries with natbib
+    \ifnatbib\bibliography{bibliography} % List bibliography entries with natbib
     \else\printbibliography[heading=bibintoc, title={Literaturverzeichnis}]\fi
     
     \iftotalfigures\listoffigures\fi    % Figures
