@@ -120,6 +120,8 @@
 
 
 % # Package configuration
+\raggedbottom	% Stop book documentclass from fucking with paragraph spacing..
+
 \newcolumntype{Y}{p{.5\textwidth}}  % TabularX
 
 \floatplacement{table}{H}   % Override default table float
