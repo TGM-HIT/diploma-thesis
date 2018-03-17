@@ -120,7 +120,8 @@
 
 
 % # Package configuration
-\raggedbottom	% Stop book documentclass from fucking with paragraph spacing..
+\raggedbottom	            % Stop book documentclass from fucking with paragraph spacing..
+\setcounter{secnumdepth}{3} % Make \subsubsections have numbers too
 
 \newcolumntype{Y}{p{.5\textwidth}}  % TabularX
 
