@@ -1,43 +1,46 @@
+% ====================
+% :: Diploma Thesis ::
+% ====================
+%
+% LaTeX class for diploma theses at the Information Technology department at TGM Vienna.
+%
+% @author   Markus Reichl <markus@re1.at> 
+% @version  2018-03-15
+% @url      https://github.com/tgm-hit/diploma-thesis
+%
+% TODO: Set authors using multiple author commands / command options
+% TODO: Add some thesis related info to the page headings
+
+
 \ProvidesClass{thesis}
-
-% # Options
-% ## Use minted package
-\newif\ifen\enfalse
+% -------------
+% :: Options ::
+% -------------
+\newif\ifen\enfalse             % English language
 \DeclareOption{en}{\entrue}
-
-% ## Use default latex fonts
-\newif\iffonts\fontstrue
+\newif\iffonts\fontstrue        % Default latex fonts
 \DeclareOption{nofonts}{\fontsfalse}
-
-% ## Do not print logos on titlepage
-\newif\iflogos\logostrue
+\newif\iflogos\logostrue        % Do not print logos on titlepage
 \DeclareOption{nologos}{\logosfalse}
-
-% ## Use minted package
-\newif\ifminted\mintedfalse
+\newif\ifminted\mintedfalse     % Minted
 \DeclareOption{minted}{\mintedtrue}
-
-% ## Use natbib package
-\newif\ifnatbib\natbibfalse
+\newif\ifnatbib\natbibfalse     % NatBib
 \DeclareOption{natbib}{\bibtrue\natbibtrue}
-
-% ## Skip line instead of indent after blank line
-\newif\ifparskip\parskipfalse
+\newif\ifparskip\parskipfalse   % Lineskip instead of indent after blank line
 \DeclareOption{parskip}{\parskiptrue}
-
-% ## Do not color hyperlinks
-\newif\ifcolor\colortrue
+\newif\ifcolor\colortrue        % Do not color links
 \DeclareOption{nocolor}{\colorfalse}
-
-% # Pass options
+% Pass options
 \ProcessOptions \relax
-% ## Load article class
+% Load article class
 \IfFileExists{crimson.sty}{
     \LoadClass[a4paper,11pt]{book}   % Crimson
 }{  \LoadClass[a4paper,10pt]{book}}  % Default
 
-% # Packages
-\iffonts\IfFileExists{crimson.sty}{\RequirePackage{crimson}}{}  % Fonts
+% --------------
+% :: Packages ::
+% --------------
+\iffonts\IfFileExists{crimson.sty}{\RequirePackage{crimson}}{}
         \IfFileExists{crimson.sty}{\RequirePackage{inconsolata}}{}\fi
 
 \RequirePackage{a4wide}
@@ -61,19 +64,44 @@
 \RequirePackage[acronym, xindy, toc, nohypertypes={acronym,notation}]{glossaries}
 \RequirePackage[figure,table,listing]{totalcount}
 
-\ifnatbib\RequirePackage{natbib}    % Choose backend
+\ifnatbib\RequirePackage{natbib}    % Bibliography
 \else\RequirePackage[backend=bibtex]{biblatex}\fi
 
-% ## Colors
+\ifminted\RequirePackage[newfloat]{minted}  % Listings
+\else\RequirePackage{listing}               % Already defined by minted itself
+     \RequirePackage{listingsutf8}\fi       % UTF-8 Input support for listings
+
+% ## Skip lines instead of indents after a blank line
+\ifparskip\RequirePackage[parfill]{parskip}\fi
+
+% ---------------
+% :: Variables ::
+% ---------------
 \definecolor{MyLightGray}{RGB}{252,252,252}
 \definecolor{MyBlue}{RGB}{5,102,141}
 \definecolor{MyGreen}{RGB}{0,168,150}
 \definecolor{MyBrown}{RGB}{143,89,3}
 \definecolor{MyOrange}{RGB}{213,111,30}
 
-% ## Require and configure minted or listings
+\newcommand\@mysubtitle{}       % Subtitle
+\newcommand\mysubtitle[1]{\renewcommand\@mysubtitle{#1}}
+\newcommand\@myschool{Technologisches Gewerbemuseum}
+\newcommand\myschool[1]{\renewcommand\@myschool{#1}}
+\newcommand\@mydepartment{Höhere Technische Lehranstalt für Informationstechnologie}
+\newcommand\mydepartment[1]{\renewcommand\@mydepartment{#1}}
+\newcommand\@mydivision{}       % Systemtechnik / Medientechnik
+\newcommand\mydivision[1]{\renewcommand\@mydivision{#1}}
+\newcommand\@myteacher{}        % Betreuende Lehrkraft
+\newcommand\myteacher[1]{\renewcommand\@myteacher{#1}}
+\newcommand\@currentauthor{}    % Use \and for multiple authors
+\newcommand\setauthor[1]{\renewcommand\@currentauthor{#1}}
+
+% -------------------
+% :: Configuration ::
+% -------------------
+
+% :: Listings ::
 \ifminted
-    \RequirePackage[newfloat]{minted}
     \floatplacement{listing}{H} % Override default listing float
     \usemintedstyle{tango}      % autumn, rainbow_dash, tango, trac
     \setminted{ fontsize=\small,
@@ -83,63 +111,24 @@
                 framesep=2mm,
                 tabsize=4}
 
-    % ## [1] Avoid copying line numbers on listings
+    % [1] Avoid copying line numbers on listings
     \renewcommand\theFancyVerbLine{
         \BeginAccSupp{method=escape,ActualText={}}
         {\rmfamily\tiny\arabic{FancyVerbLine}}
         \EndAccSupp{}
     }
     \SetupFloatingEnvironment{listing}{listname=Auflistungsverzeichnis,name=Auflistung}
-\else
-    \RequirePackage{listing}                % Already defined by minted itself
-    \RequirePackage{listingsutf8}           % UTF-8 Input support for listings
-    \IfFileExists{lst.tex}{\input{lst}}{}   % Load lstlistings config if exists
+\else   % Lstlistings
+    \IfFileExists{.lst.tex}{\input{.lst}}{}   % Load config if exists
 \fi
 
-% ## Skip lines instead of indents after a blank line
-\ifparskip\RequirePackage[parfill]{parskip}\fi
-
-% # Variables
-\newcommand\@mysubtitle{}           % Untertitel
-\newcommand\mysubtitle[1]{\renewcommand\@mysubtitle{#1}}
-
-\newcommand\@myschool{Technologisches Gewerbemuseum}
-\newcommand\myschool[1]{\renewcommand\@myschool{#1}}
-
-\newcommand\@mydepartment{Höhere Technische Lehranstalt für Informationstechnologie}
-\newcommand\mydepartment[1]{\renewcommand\@mydepartment{#1}}
-
-\newcommand\@mydivision{}           % Systemtechnik / Medientechnik
-\newcommand\mydivision[1]{\renewcommand\@mydivision{#1}}
-
-\newcommand\@myteacher{}            % Michel Borko
-\newcommand\myteacher[1]{\renewcommand\@myteacher{#1}}
-
-\newcommand\@currentauthor{}        % Use \and for multiple authors
-\newcommand\setauthor[1]{\renewcommand\@currentauthor{#1}}
-
-
-% # Package configuration
-\raggedbottom	            % Stop book documentclass from fucking with paragraph spacing..
-\setcounter{secnumdepth}{3} % Make \subsubsections have numbers too
-
-\newcolumntype{Y}{p{.5\textwidth}}  % TabularX
-
-\floatplacement{table}{H}   % Override default table float
-\floatplacement{figure}{H}  % Override default figure float
-
-% Hyperlinks
+% :: Hyperlinks ::
 \ifcolor\hypersetup{breaklinks=true, colorlinks=true,   % Color hyperlinks
                     linkcolor=MyBlue, urlcolor=MyBlue, citecolor=MyBlue}
 \else\hypersetup{breaklinks=true, colorlinks=false,     % Do not color hyperlinks
-                    linkcolor=Black, urlcolor=Black, citecolor=Black}
-\fi
+                    linkcolor=Black, urlcolor=Black, citecolor=Black}\fi
 
-% ## Footnotes
-\def\arraystretch{1.5}
-\renewcommand\thefootnote{\Roman{footnote}}
-
-% ## Header
+% :: Headers ::
 \pagestyle{fancy}\fancyhf{}
 
 \makeatletter
@@ -151,50 +140,59 @@
 
 \renewcommand{\footrulewidth}{\headrulewidth}
 
-% ## Add glossary / bibliography entries if they exist
+% Add glossary / bibliography entries if they exist
 \IfFileExists{glossaries.tex}{\input{glossaries}\makeglossaries}{}
 \IfFileExists{bibliography.bib}{\addbibresource{bibliography}}{}
 
-% # Makros
-% ## Title
+% :: Hacks ::
+\raggedbottom               % Stop book documentclass from fucking with paragraph spacing..
+\setcounter{secnumdepth}{3} % Make \subsubsections have numbers too
+\def\arraystretch{1.5}      % Adjust table cell spacing
+\floatplacement{table}{H}   % Adjust default table float
+\floatplacement{figure}{H}  % Adjust default figure float
+
+\renewcommand\thefootnote{\Roman{footnote}} % Roman footnotes
+\newcolumntype{Y}{p{.5\textwidth}}  % cell with 50% of text width for TabularX
+
+% ------------
+% :: Makros ::
+% ------------
+
+% :: Title ::
 \makeatletter
 \renewcommand\maketitle{
-    \iflogos~\\         % Print logos
+    \iflogos~\\
         \IfFileExists{images/logo-left.png}{\includegraphics[height=2cm]{images/logo-left.png}}{}
         \hfill
         \IfFileExists{images/logo-right.png}{\includegraphics[height=2cm]{images/logo-right.png}}{}
     \fi
     
-    \vskip 2.5cm      % Minimum margin
+    \vskip 2.5cm    % Space between logos and school related information
 
     \begin{center}
-        \if\relax\@myschool\relax\else  {\LARGE\@myschool}
-            ~\\\vspace{1em}\fi
-        \if\relax\@mydepartment\relax\else  {\large\@mydepartment}
-            ~\\\vspace{0.5em}\fi
-        \if\relax\@mydivision\relax\else  {\large\@mydivision}\fi
+        \if\relax\@myschool\relax\else      {\LARGE\@myschool}      ~\\\vspace{1em}\fi
+        \if\relax\@mydepartment\relax\else  {\large\@mydepartment}  ~\\\vspace{0.5em}\fi
+        \if\relax\@mydivision\relax\else    {\large\@mydivision}    \fi
 
-        \vskip 3cm    % Minimum margin
+        \vfill  % Fill space between title header and project logo and headings
 
         \IfFileExists{images/logo.png}{
             \includegraphics[height=2.5cm]{images/logo.png}
-            \vskip 2em    % Minimum margin
-        }{}        
+            \vskip 2em    % Space between logo and headings if logo exists
+        }{}
         
         {\Huge\textbf\thetitle}                                     ~\\\vspace{1.5em}
         \if\relax\@mysubtitle\relax\else    {\LARGE\@mysubtitle}    \fi
 
-        \vskip 3cm     % Minimum margin
+        \vfill  % Fill space between headings and authors
         
         \theauthor                                                      ~\\\vspace{2em}
         \if\relax\@myteacher\relax\else \textbf{Betreuer:} \@myteacher  ~\\\vspace{2em}\fi
         \@date
     \end{center}
-
-    \vskip 1cm      % Minimum margin
 }\makeatother
 
-% ## Statutory declaration
+% :: Statutory declaration ::
 \makeatletter
 \newcommand\makedeclaration{
     \ifen
@@ -208,30 +206,28 @@
 \makeatother
 
 
-% ## Basic centered figure
-% \makefig{path}{width}{caption}{label}
+% :: Basic centered figure ::
+%  - usage: \makefig{path}{width}{caption}{label}
+% TODO: Use options instead of parameters
 \newcommand\makefig[4]{
     \begin{figure}[H]
         \centering
         \includegraphics[#2]{#1}
-        \ifx\relax#3\relax
-        \else\caption{#3}\fi
-        \ifx\relax#4\relax
-        \else\label{#4}\fi
+        \ifx\relax#3\relax\else\caption{#3}\fi
+        \ifx\relax#4\relax\else\label{#4}\fi
     \end{figure}
 }
 
-% ## Math variable declaration
+% :: Math variable declaration
+%  - usage: \vardef{variable}{definition}
 \newenvironment{vardef}{
-	\center \small
+	\center\small  % Make variables centered and small
 	\begin{tabular}{l l l}
 }{\end{tabular} \normalsize \endcenter}
-\newcommand\addvardef[2]{
-    {#1} & \dots & {#2}\\
-}
+% Add variables to the vardef environment
+\newcommand\addvardef[2]{{#1}&\dots&{#2}\\}
 
-
-% ## Environments
+% :: Abstract ::
 \newenvironment{abstract}[1][]{
     \ifthenelse{\equal{#1}{english}}{
         \selectlanguage{english}
@@ -243,7 +239,7 @@
 }{  \ifen\selectlanguage{english}\else\selectlanguage{ngerman}\fi}
 
 
-% ## Code environments
+% :: Code environments ::
 % Extra % is used as a linefix for the code interpreter
 \ifminted   % Minted goes here
     \newcommand\setcode[1]{\setminted{#1}}  % Code settings
@@ -271,17 +267,19 @@
     \end{flushleft}}
 \fi
 
-% ## Add common commands at the beginning of the document
+% :: Begin Document ::
+% Add common commands at the beginning of the document
+% TODO: Add options for title and declaration
 \AtBeginDocument{
     \pagestyle{empty}
-    \pagenumbering{arabic}              % Required by pageslts
-    \maketitle                          % Titlepage
-    \makedeclaration                    % Statutory declaration
+    \pagenumbering{arabic}  % Required by pageslts
+    \maketitle              % Titlepage
+    \makedeclaration        % Statutory declaration
 }
 
-% ## Add common commands at the end of the document
+% :: End Document ::
+% Add common commands at the end of the document
 \AtEndDocument{
-    % \glsaddall        % Also list unused glossary entries
     \printglossaries    % List used glossary entries
 
     \ifnatbib\bibliography{bibliography} % List bibliography entries with natbib
