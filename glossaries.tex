@@ -1,5 +1,11 @@
-\newacronym{ac-syt}{SYT}{Systemtechnik}
+%!TEX root=../thesis.tex
+
+% Akronyme können mit dem Kommando \newacronym{label}{acronym}{description} definiert und mit dem Kommand \gls{label} genutzt werden.
+\newacronym{ac:tgm}{TGM}{Technologisches Gewerbemuseum}
+
+% Ein Glossareintrag wird mittels \newglossaryentry{label}{params} definiert, wobei als Parameter mindestens name und description vorhanden sein müssen. Ist ein Glossareintrag zugleich ein Akronym, kann dieses trotzdem bei der ersten Verwendung ausgeschrieben werden, indem der Parameter first angegeben wird.
 \newglossaryentry{syt}{
-	name={Systemtechnik},
+	name={syt},
+	first={Systemtechnik},
 	description={\enquote{Als Systemtechnik bezeichnet man verschiedene Aufbau- und Verbindungstechniken, aber auch eine Fachrichtung der Ingenieurwissenschaften. Er bedeutet in der Unterscheidung zu den Mikrotechnologien die Verbindung verschiedener einzelner Module eines Systems und deren Konzeption.} \cite{wiki-syt}}
 }

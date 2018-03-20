@@ -7,6 +7,7 @@ Option | Result
 `natbib` | Change bibtex backend to natbib
 `nofonts` | Change font to default
 `nologos` | Disable logos on titlepage
+`oneside` | Do not use multiple pages for chapters
 
 ### Variables
 Variables can be set as commands like

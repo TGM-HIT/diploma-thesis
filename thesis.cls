@@ -2,7 +2,8 @@
 % :: Diploma Thesis ::
 % ====================
 %
-% LaTeX class for diploma theses at the Information Technology department at TGM Vienna.
+% LaTeX class for diploma theses designed for the HIT department at TGM Vienna.
+% Thanks to @chro and @mborko for the previous templates!
 %
 % @author   Markus Reichl <markus@re1.at> 
 % @version  2018-03-15
@@ -158,6 +159,14 @@
 % :: Makros ::
 % ------------
 
+% :: Authors ::
+% TODO: Implement a list of authors as options, parameters or even commands
+% \newcounter{authors}
+% \renewcommand{\author}[3]{
+%     \stepcounter{authors}
+%     #1, #2, #3
+% }
+
 % :: Title ::
 \makeatletter
 \renewcommand\maketitle{
@@ -197,10 +206,10 @@
 \newcommand\makedeclaration{
     \ifen
         \chapter*{Statutory declaration}
-        I declare that I have authored this thesis independently, that I have not used other than the declared sources / resources, and that I have explicitly marked all material which has been quoted either literally or by content from the used sources.
+        I declare that I have authored this thesis independently, that I have not used other than the declared sources / resources and that I have explicitly marked all material which has been quoted either literally or by content from the used sources.
     \else
         \chapter*{Eidesstattliche Erklärung}
-        Ich erkläre an Eides statt, dass ich die vorliegende Arbeit selbstständig verfasst, andere als die angegebenen Quellen/Hilfsmittel nicht benutzt, und die den benutzten Quellen wörtlich und inhaltlich entnommenen Stellen als solche kenntlich gemacht habe.
+        Ich erkläre an Eides statt, dass ich die vorliegende Arbeit selbstständig verfasst, andere als die angegebenen Quellen/Hilfsmittel nicht benutzt und die den benutzten Quellen wörtlich und inhaltlich entnommenen Stellen als solche kenntlich gemacht habe.
     \fi
 }
 \makeatother
