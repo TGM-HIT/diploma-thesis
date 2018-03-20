@@ -7,6 +7,7 @@ ecO = \e[0;33m
 ecP = \e[0;35m
 ecC = \e[0;36m
 # constants
+LOG = false
 BUILD = .
 ERRLINES = 1
 
@@ -18,6 +19,15 @@ else
 	@echo -e "$(ecG)Run $(ecC)all $(eR)on $(ecP). $(eR)by default"
 	$(MAKE) all
 endif
+
+
+latex:
+	@echo -e "$(ecG)Make $(ecC)latex$(eR) for $(ecP)$(f)$(eR)"
+ifneq (.,$(BUILD))
+	@mkdir -p $(BUILD)
+endif
+	@latex -shell-escape -file-line-error -interaction=batchmode -output-directory=$(BUILD) $(f) || echo -e "$(ecR)Error running $(ecC)pdflatex$(ecR)!$(eR)"
+	@grep ".*:[0-9]*:.*" $(BUILD)/$(f).log -A$(ERRLINES) && { false; } || { echo -e "$(ecG)Everything OK!$(eR)"; }
 
 
 pdf:
@@ -108,6 +118,15 @@ endif
 	@$(MAKE) clean
 
 
+pygments:
+	@pygmentize -V && echo "Pygments is already installed!"; return false;
+	@echo "$(ecO)WARNING:$(ecO) This target will check for a python runtime and pip install Pygments. \
+		If you are using a unix-like system you might want to query your package manager first!"
+	@python --version || echo "Minted requires the Python runtime. Go get it from https://www.python.org/downloads/"; return false;
+	@echo "$(ecG)Installing $(ecC)Pygments$(eR) using pip"
+	@pip install Pygments
+
+
 FILES = $(filter-out $(wildcard lst*.tex glo*.tex _*.tex), $(wildcard *.tex))
 all:
 	@echo -e "$(ecG)Run $(eR)target $(ecC)all $(eR)on $(ecP).$(eR)"
@@ -122,7 +141,8 @@ ifneq (.,$(BUILD))
 	@cp $(BUILD)/$(f).pdf $(f).pdf || echo -e "$(ecR)Missing $(ecP)$(f).pdf$(eR)"
 	rm -rf $(BUILD)
 endif
-	rm -f *.acn *.acr *.alg *.aux *.bbl *.blg *-blx.bib *.bcf *.dvi *.glg *.glo *.gls *.glsdefs *.ist *.log *.out *.run.xml *.synctex.gz *.toc *.xdy *.lot *.lof *.lol
-	cd chapters; rm -f *.acn *.acr *.alg *.aux *.bbl *.blg *-blx.bib *.bcf *.dvi *.glg *.glo *.gls *.glsdefs *.ist *.log *.out *.run.xml *.synctex.gz *.toc *.xdy *.lot *.lof *.lol
-	cd chapters/sections; rm -f *.acn *.acr *.alg *.aux *.bbl *.blg *-blx.bib *.bcf *.dvi *.glg *.glo *.gls *.glsdefs *.ist *.log *.out *.run.xml *.synctex.gz *.toc *.xdy *.lot *.lof *.lol
+	rm -rf *.acn *.acr *.alg *.aux *.bbl *.blg *-blx.bib *.bcf *.dvi *.glg *.glo *.gls *.glsdefs *.ist *.out *.run.xml *.synctex.gz *.toc *.xdy *.lot *.lof *.lol
 	rm -rf _minted*
+ifneq (true, $(LOG))
+	rm -rf *.log
+endif
