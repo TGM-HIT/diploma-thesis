@@ -1,2 +1,31 @@
 %!TEX root=../../main.tex
 \section{Quellen} 
+Das richtige zitieren spielt innerhalb der wissenschaftlichen Arbeit eine wichtige Rolle. Die Vorlage nutzt zur Verwaltung von Literatur ein Programm mit dem Namen \verb|biblatex|. Mit diesem werden alle Einträge, welche sich in der Datei \verb|bibliography.bib| befinden verarbeitet und können in der Arbeit selbst über das Kommando \codeinline{latex}{\cite{key}} referenziert werden.
+
+Als kleines Beispiel findet sich hier nun ein Zitat über Schall, aus dem ersten Phsyik Lehrbuch der Autoren, Schweitzer, Svoboda und Trieb.
+
+\begin{quote}
+\enquote{Mechanische Longitudinalwellen werden als Schall bezeichnet. In einem Frequenzbereich von 16 Hz bis 20 kHz sind sie für das menschliche Ohr wahrnehmbar. Liegen die Frequenzen unter diesem Bereich, so bezeichnet man diese Wellen als Infraschall, darüber als Ultraschall.} \cite[S. 145]{physik1}
+\end{quote}
+
+Eine Referenz wie diese ist möglich, wenn der entsprechende Eintrag in der dafür vorgesehenen Datei vorhanden ist. In diesem Fall sieht die Definition der Quelle wie folgt aus:
+
+\begin{listing}
+\begin{code}{bibtex}
+@book{ physik1,
+	title = {Physik 1},
+	author = {Christian Schweitzer, Peter Svoboda, Lutz Trieb},
+	year = {2011},
+	subtitle = {Mechanik, Thermodynamik, Optik},
+	edition = {7. Auflage},
+	publisher = {Veritas},
+	pages = {140, 145-150},
+	pagetotal = {296}
+}
+\end{code}
+\caption{Eintrag einer Buchquelle in BibLatex}
+\end{listing}
+
+Bei einem direkten Zitat empfiehlt es sich auch die Seitenzahl anzugeben. Dies kann über die Option des Kommandos \codeinline{latex}{\code[S. Zahl]{key}} bewerkstelligt werden.
+
+Nach der Verwendung einer Quelle, wird diese auch im Literaturverzeichnis gelistet, welche sich am Ende des Dokuments befindet.
