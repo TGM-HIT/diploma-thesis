@@ -142,6 +142,7 @@ ifneq (.,$(BUILD))
 	rm -rf $(BUILD)
 endif
 	rm -rf *.acn *.acr *.alg *.aux *.bbl *.blg *-blx.bib *.bcf *.dvi *.glg *.glo *.gls *.glsdefs *.ist *.out *.run.xml *.synctex.gz *.toc *.xdy *.lot *.lof *.lol
+	cd chapters; rm -f *.acn *.acr *.alg *.aux *.bbl *.blg *-blx.bib *.bcf *.dvi *.glg *.glo *.gls *.glsdefs *.ist *.log *.out *.run.xml *.synctex.gz *.toc *.xdy *.lot *.lof *.lol
 ifneq (true, $(MINTED))
 	rm -rf _minted*
 endif
