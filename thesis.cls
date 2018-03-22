@@ -19,6 +19,8 @@
 % -------------
 \newif\ifen\enfalse             % English language
 \DeclareOption{en}{\entrue}
+\newif\ifcolor\colortrue        % Do not color links
+\DeclareOption{nocolor}{\colorfalse}
 \newif\iffonts\fontstrue        % Default latex fonts
 \DeclareOption{nofonts}{\fontsfalse}
 \newif\iflogos\logostrue        % Do not print logos on titlepage
@@ -29,8 +31,8 @@
 \DeclareOption{natbib}{\bibtrue\natbibtrue}
 \newif\ifparskip\parskipfalse   % Lineskip instead of indent after blank line
 \DeclareOption{parskip}{\parskiptrue}
-\newif\ifcolor\colortrue        % Do not color links
-\DeclareOption{nocolor}{\colorfalse}
+\newif\ifsans\sansfalse          % Use sans serif fonts
+\DeclareOption{sans}{\sanstrue}
 % Pass options
 \ProcessOptions \relax
 % Load article class
@@ -41,10 +43,14 @@
 % --------------
 % :: Packages ::
 % --------------
-\iffonts\IfFileExists{crimson.sty}{\RequirePackage{crimson}}{}
-        \IfFileExists{crimson.sty}{\RequirePackage{inconsolata}}{}\fi
+\iffonts
+    \ifsans \renewcommand*\familydefault{\sfdefault}
+    \else   \IfFileExists{crimson.sty}{\RequirePackage{crimson}}{}
+    \fi
+    \IfFileExists{inconsolate.sty}{\RequirePackage{inconsolata}}{}
+\fi
 
-\RequirePackage{a4wide}
+\RequirePackage{geometry, a4wide}
 \RequirePackage[T1]{fontenc}
 \RequirePackage[utf8]{inputenc}
 \RequirePackage{ccicons, csquotes, amssymb, mathtools}
@@ -64,6 +70,7 @@
 \RequirePackage{accsupp}    % [1]
 \RequirePackage[acronym, xindy, toc, nohypertypes={acronym,notation}]{glossaries}
 \RequirePackage[figure,table,listing]{totalcount}
+\RequirePackage{pgffor, xparse}     % Easier creation of commands with arguments
 
 \ifnatbib\RequirePackage{natbib}    % Bibliography
 \else\RequirePackage[backend=bibtex]{biblatex}\fi
@@ -84,17 +91,17 @@
 \definecolor{MyBrown}{RGB}{143,89,3}
 \definecolor{MyOrange}{RGB}{213,111,30}
 
-\newcommand\@mysubtitle{}       % Subtitle
+\newcommand\@mysubtitle{}
 \newcommand\mysubtitle[1]{\renewcommand\@mysubtitle{#1}}
 \newcommand\@myschool{Technologisches Gewerbemuseum}
 \newcommand\myschool[1]{\renewcommand\@myschool{#1}}
 \newcommand\@mydepartment{Höhere Technische Lehranstalt für Informationstechnologie}
 \newcommand\mydepartment[1]{\renewcommand\@mydepartment{#1}}
-\newcommand\@mydivision{}       % Systemtechnik / Medientechnik
+\newcommand\@mydivision{}
 \newcommand\mydivision[1]{\renewcommand\@mydivision{#1}}
-\newcommand\@myteacher{}        % Betreuende Lehrkraft
+\newcommand\@myteacher{}
 \newcommand\myteacher[1]{\renewcommand\@myteacher{#1}}
-\newcommand\@currentauthor{}    % Use \and for multiple authors
+\newcommand\@currentauthor{}
 \newcommand\setauthor[1]{\renewcommand\@currentauthor{#1}}
 
 % -------------------
@@ -135,7 +142,9 @@
 \makeatletter
 \fancyhead[L]{\small \thetitle}
 \fancyhead[R]{\small \nouppercase{\leftmark}}
-\fancyfoot[L]{\small \if\relax\@currentauthor\relax\theauthor\else\@currentauthor\fi}
+% One might want to check if \@currentauthor is set using:
+% \if\relax\@currentauthor\relax\theauthor\else\@currentauthor\fi
+\fancyfoot[L]{\small \@currentauthor}
 \fancyfoot[R]{\small \thepage~/~{\lastpageref*{VeryLastPage}}}
 \makeatother
 
@@ -160,59 +169,89 @@
 % ------------
 
 % :: Authors ::
-% TODO: Implement a list of authors as options, parameters or even commands
-% \newcounter{authors}
-% \renewcommand{\author}[3]{
-%     \stepcounter{authors}
-%     #1, #2, #3
-% }
+% Save authors and author names to variables
+\def\authors{}
+\def\theauthors{}
+% Check for any author
+\newif\ifauthor\authorfalse
+% Renew the \author command, usage is now \author{name}{class}{subject}
+\renewcommand\author[3]{
+    \edef\authors{\authors #1;#2;#3,}
+    \edef\theauthors{\theauthors\ifauthor,~\fi#1}
+    \authortrue
+}
+% Provide commands for author display on the titlepage
+\NewDocumentCommand\printauthor{mmm}{
+    \makebox[\textwidth][l]{#3}\vspace{.25em}
+    \makebox[.4\textwidth][l]{#1\hfill#2}~\\\\
+}
+\NewDocumentCommand\splitauthor{>{\SplitArgument{2}{;}}m}{\printauthor#1}
+\newcommand\makeauthors{    % Iterate over authors
+    \foreach \n in \authors{
+        \if\relax\n\relax\else\expandafter\splitauthor\expandafter{\n}\fi
+    }
+}
 
 % :: Title ::
 \makeatletter
 \renewcommand\maketitle{
-    \iflogos~\\
-        \IfFileExists{images/logo-left.png}{\includegraphics[height=2cm]{images/logo-left.png}}{}
-        \hfill
-        \IfFileExists{images/logo-right.png}{\includegraphics[height=2cm]{images/logo-right.png}}{}
-    \fi
-    
-    \vskip 2.5cm    % Space between logos and school related information
+    ~\\     % Line fix
+    \begin{minipage}{3cm}
+        \iflogos\IfFileExists{images/logo-left.png}{
+            \includegraphics[width=3cm]{images/logo-left.png}}{}\fi
+    \end{minipage}
+    \hfill
+    \begin{minipage}{.5\textwidth}
+        ~\\\centering
+        \if\relax\@myschool\relax\else      {\Large\@myschool}\fi
+        \if\relax\@mydepartment\relax\else  ~\\\vspace{.5em}{\@mydepartment}    \fi
+        \if\relax\@mydivision\relax\else    ~\\\vspace{.5em}{\@mydivision}      \fi
+    \end{minipage}
+    \hfill
+    \begin{minipage}{3cm}
+    \iflogos\IfFileExists{images/logo-right.png}{
+            \includegraphics[width=3cm]{images/logo-right.png}}{}\fi
+    \end{minipage}
 
+    \begin{center}\rule{\textwidth}{.1mm}\end{center}
+
+    \vfill  % Fill space between title header and project logo and headings
     \begin{center}
-        \if\relax\@myschool\relax\else      {\LARGE\@myschool}      ~\\\vspace{1em}\fi
-        \if\relax\@mydepartment\relax\else  {\large\@mydepartment}  ~\\\vspace{0.5em}\fi
-        \if\relax\@mydivision\relax\else    {\large\@mydivision}    \fi
-
-        \vfill  % Fill space between title header and project logo and headings
-
         \IfFileExists{images/logo.png}{
-            \includegraphics[height=2.5cm]{images/logo.png}
-            \vskip 2em    % Space between logo and headings if logo exists
-        }{}
-        
-        {\Huge\textbf\thetitle}                                     ~\\\vspace{1.5em}
-        \if\relax\@mysubtitle\relax\else    {\LARGE\@mysubtitle}    \fi
-
-        \vfill  % Fill space between headings and authors
-        
-        \theauthor                                                      ~\\\vspace{2em}
-        \if\relax\@myteacher\relax\else \textbf{Betreuer:} \@myteacher  ~\\\vspace{2em}\fi
-        \@date
+            \includegraphics[height=5cm]{images/logo.png}
+            \vskip 2em}{}   % Space between logo and headings if logo exists
+        {\Large\textbf{
+            \ifen Diploma Thesis \else Diplomarbeit \fi
+        }}~\\\vspace{2em}
+        {\Huge\textbf\thetitle}~\\\vspace{1.5em}
+        \if\relax\@mysubtitle\relax\else{\LARGE\@mysubtitle}\fi
     \end{center}
+    \vfill  % Fill space between headings and authors
+
+    ~\\\makeauthors{}~\\    % Create list of authors
+    \makebox[\textwidth][l]{\if\relax\@myteacher\relax\else \textbf{Betreuer:} \@myteacher\fi}
+    \begin{center}\rule{\textwidth}{.1mm}\end{center}
+    \makebox[\textwidth][l]{Abgabevermerk:}
+    \makebox[\textwidth][l]{\@date\hfill Übernommen von: \hspace{3cm}}
 }\makeatother
 
 % :: Statutory declaration ::
-\makeatletter
 \newcommand\makedeclaration{
-    \ifen
+    \ifen   % Prints english version
         \chapter*{Statutory declaration}
         I declare that I have authored this thesis independently, that I have not used other than the declared sources / resources and that I have explicitly marked all material which has been quoted either literally or by content from the used sources.
-    \else
+    \else   % Print german version
         \chapter*{Eidesstattliche Erklärung}
         Ich erkläre an Eides statt, dass ich die vorliegende Arbeit selbstständig verfasst, andere als die angegebenen Quellen/Hilfsmittel nicht benutzt und die den benutzten Quellen wörtlich und inhaltlich entnommenen Stellen als solche kenntlich gemacht habe.
     \fi
+    \vspace{3em}~\\
+    \ifauthor\foreach \n in \theauthors{
+        \makebox[.4\textwidth][c]{\rule{.3\textwidth}{.1mm}}
+        \makebox[.6\textwidth][c]{\rule{.5\textwidth}{.1mm}}\vspace{.25em}~\\
+        \makebox[.4\textwidth][c]{\small Ort, Datum}
+        \makebox[.6\textwidth][c]{\small\n}\vspace{1em}\vspace{1em}~\\
+    }\fi
 }
-\makeatother
 
 
 % :: Basic centered figure ::
@@ -280,9 +319,12 @@
 % Add common commands at the beginning of the document
 % TODO: Add options for title and declaration
 \AtBeginDocument{
-    \pagestyle{empty}
+    % Adjust geometry for the first page
+    \newgeometry{left=1in, right=1in, top=.75in, bottom=.75in}
+    \pagestyle{empty}       % Do not show headers for the first few pages
     \pagenumbering{arabic}  % Required by pageslts
     \maketitle              % Titlepage
+    \restoregeometry        % Restore geometry to default settings
     \makedeclaration        % Statutory declaration
 }
 
