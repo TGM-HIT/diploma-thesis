@@ -176,21 +176,20 @@
 \newif\ifauthor\authorfalse
 % Renew the \author command, usage is now \author{name}{class}{subject}
 \renewcommand\author[3]{
-    \edef\authors{\authors #1;#2;#3,}
+    \edef\authors{\authors #1;#2;#3*}
     \edef\theauthors{\theauthors\ifauthor,~\fi#1}
     \authortrue
 }
 % Provide commands for author display on the titlepage
 \NewDocumentCommand\printauthor{mmm}{
-    \makebox[\textwidth][l]{#3}\vspace{.25em}
-    \makebox[.4\textwidth][l]{#1\hfill#2}~\\\\
-}
-\NewDocumentCommand\splitauthor{>{\SplitArgument{2}{;}}m}{\printauthor#1}
-\newcommand\makeauthors{    % Iterate over authors
-    \foreach \n in \authors{
-        \if\relax\n\relax\else\expandafter\splitauthor\expandafter{\n}\fi
+    \IfNoValueTF{#2}{}{     % TODO: Remove quickcheck #2 with xparse
+        \parbox[l]{\textwidth}{#3}\vspace{.25em}
+        \makebox[.4\textwidth][l]{#1\hfill#2}~\\\\
     }
 }
+\NewDocumentCommand\splitauthor{>{\SplitArgument{2}{;}}m}{\printauthor#1}
+\NewDocumentCommand\splitauthors{>{\SplitList{*}}m}{\ProcessList{#1}{\splitauthor}}
+\NewDocumentCommand\makeauthors{}{\expandafter\splitauthors\expandafter{\authors}}
 
 % :: Title ::
 \makeatletter
@@ -218,13 +217,13 @@
     \vfill  % Fill space between title header and project logo and headings
     \begin{center}
         \IfFileExists{images/logo.png}{
-            \includegraphics[height=5cm]{images/logo.png}
+            \includegraphics[height=4cm]{images/logo.png}
             \vskip 2em}{}   % Space between logo and headings if logo exists
         {\Large\textbf{
             \ifen Diploma Thesis \else Diplomarbeit \fi
         }}~\\\vspace{2em}
         {\Huge\textbf\thetitle}~\\\vspace{1.5em}
-        \if\relax\@mysubtitle\relax\else{\LARGE\@mysubtitle}\fi
+        \if\relax\@mysubtitle\relax\else{\Large\@mysubtitle}\fi
     \end{center}
     \vfill  % Fill space between headings and authors
 
@@ -239,11 +238,10 @@
 \newcommand\makedeclaration{
     \ifen   % Prints english version
         \chapter*{Statutory declaration}
-        I declare that I have authored this thesis independently, that I have not used other than the declared sources / resources and that I have explicitly marked all material which has been quoted either literally or by content from the used sources.
-    \else   % Print german version
-        \chapter*{Eidesstattliche Erklärung}
-        Ich erkläre an Eides statt, dass ich die vorliegende Arbeit selbstständig verfasst, andere als die angegebenen Quellen/Hilfsmittel nicht benutzt und die den benutzten Quellen wörtlich und inhaltlich entnommenen Stellen als solche kenntlich gemacht habe.
-    \fi
+        I declare that I have authored this thesis independently, that I have not used other than the declared sources / resources and that I have explicitly marked all material which has been quoted either literally or by content from the used sources.\vspace{3em}~\\
+    \fi   % Print german version
+    \chapter*{Eidesstattliche Erklärung}
+    Ich erkläre an Eides statt, dass ich die vorliegende Arbeit selbstständig verfasst, andere als die angegebenen Quellen/Hilfsmittel nicht benutzt und die den benutzten Quellen wörtlich und inhaltlich entnommenen Stellen als solche kenntlich gemacht habe.
     \vspace{3em}~\\
     \ifauthor\foreach \n in \theauthors{
         \makebox[.4\textwidth][c]{\rule{.3\textwidth}{.1mm}}
