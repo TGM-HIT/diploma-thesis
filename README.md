@@ -3,6 +3,7 @@
 ### Options
 Option | Result
 ------ | ------
+`en` | Set main document langauge to english
 `minted` | Add and configure minted package
 `natbib` | Change bibtex backend to natbib
 `nofonts` | Change font to default
@@ -21,3 +22,4 @@ Command | Content
 `mydepartment` | Name of department
 `mydivision` | Name of division
 `myteacher` | Teacher responsible for the thesis
+`myyear` | Year of graduation in format yyyy/yy

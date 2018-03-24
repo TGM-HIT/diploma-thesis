@@ -101,6 +101,8 @@
 \newcommand\mydivision[1]{\renewcommand\@mydivision{#1}}
 \newcommand\@myteacher{}
 \newcommand\myteacher[1]{\renewcommand\@myteacher{#1}}
+\newcommand\@myyear{2017/2018}
+\newcommand\myyear[1]{\renewcommand\@myyear{#1}}
 \newcommand\@currentauthor{}
 \newcommand\setauthor[1]{\renewcommand\@currentauthor{#1}}
 
@@ -125,7 +127,10 @@
         {\rmfamily\tiny\arabic{FancyVerbLine}}
         \EndAccSupp{}
     }
-    \SetupFloatingEnvironment{listing}{listname=Auflistungsverzeichnis,name=Auflistung}
+    % Change listings name in for german language
+    \ifen\else\SetupFloatingEnvironment{listing}{
+        listname=Auflistungsverzeichnis,name=Auflistung
+    }\fi
 \else   % Lstlistings
     \IfFileExists{.lst.tex}{\input{.lst}}{}   % Load config if exists
 \fi
@@ -200,11 +205,12 @@
             \includegraphics[width=3cm]{images/logo-left.png}}{}\fi
     \end{minipage}
     \hfill
-    \begin{minipage}{.5\textwidth}
+    \begin{minipage}{.6\textwidth}
         ~\\\centering
         \if\relax\@myschool\relax\else      {\Large\@myschool}\fi
         \if\relax\@mydepartment\relax\else  ~\\\vspace{.5em}{\@mydepartment}    \fi
-        \if\relax\@mydivision\relax\else    ~\\\vspace{.5em}{\@mydivision}      \fi
+        \if\relax\@mydivision\relax\else
+            ~\\{Schwerpunkt~\@mydivision}\fi
     \end{minipage}
     \hfill
     \begin{minipage}{3cm}
@@ -228,7 +234,8 @@
     \vfill  % Fill space between headings and authors
 
     ~\\\makeauthors{}~\\    % Create list of authors
-    \makebox[\textwidth][l]{\if\relax\@myteacher\relax\else \textbf{Betreuer:} \@myteacher\fi}
+    \makebox[\textwidth][l]{\if\relax\@myteacher\relax\else \textbf{Betreuer:}~\@myteacher\fi}
+    \makebox[\textwidth][l]{\if\relax\@myyear\relax\else Ausgeführt im Schuljahr~\@myyear\fi}
     \begin{center}\rule{\textwidth}{.1mm}\end{center}
     \makebox[\textwidth][l]{Abgabevermerk:}
     \makebox[\textwidth][l]{\@date\hfill Übernommen von: \hspace{3cm}}
@@ -238,15 +245,16 @@
 \newcommand\makedeclaration{
     \ifen   % Prints english version
         \chapter*{Statutory declaration}
-        I declare that I have authored this thesis independently, that I have not used other than the declared sources / resources and that I have explicitly marked all material which has been quoted either literally or by content from the used sources.\vspace{3em}~\\
+        I declare that I have authored this thesis independently, that I have not used other than the declared sources and that I have explicitly marked all material which has been quoted either literally or by content from the used sources.
+    \else
+        \chapter*{Eidesstattliche Erklärung}
+        Ich erkläre an Eides statt, dass ich die vorliegende Arbeit selbstständig verfasst, andere als die angegebenen Quellen/Hilfsmittel nicht benutzt und die den benutzten Quellen wörtlich und inhaltlich entnommenen Stellen als solche kenntlich gemacht habe.
     \fi   % Print german version
-    \chapter*{Eidesstattliche Erklärung}
-    Ich erkläre an Eides statt, dass ich die vorliegende Arbeit selbstständig verfasst, andere als die angegebenen Quellen/Hilfsmittel nicht benutzt und die den benutzten Quellen wörtlich und inhaltlich entnommenen Stellen als solche kenntlich gemacht habe.
     \vspace{3em}~\\
     \ifauthor\foreach \n in \theauthors{
         \makebox[.4\textwidth][c]{\rule{.3\textwidth}{.1mm}}
         \makebox[.6\textwidth][c]{\rule{.5\textwidth}{.1mm}}\vspace{.25em}~\\
-        \makebox[.4\textwidth][c]{\small Ort, Datum}
+        \makebox[.4\textwidth][c]{\small \ifen{Location, Date}\else{Ort, Datum}\fi}
         \makebox[.6\textwidth][c]{\small\n}\vspace{1em}\vspace{1em}~\\
     }\fi
 }
@@ -332,7 +340,8 @@
     \printglossaries    % List used glossary entries
 
     \ifnatbib\bibliography{bibliography} % List bibliography entries with natbib
-    \else\printbibliography[heading=bibintoc, title={Literaturverzeichnis}]\fi
+    \else   \ifen\printbibliography[heading=bibintoc]
+            \else\printbibliography[heading=bibintoc, title=Literaturverzeichnis]\fi\fi
     
     \iftotalfigures\listoffigures\fi    % Figures
     \iftotaltables\listoftables\fi      % Tables
