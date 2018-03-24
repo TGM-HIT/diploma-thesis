@@ -1,5 +1,11 @@
 ## A Latex Thesis Template
 
+### Commands
+Option | Result
+------ | ------
+`\selectlanguage{english}` & Set language to english
+`\selectlanguage{ngerman}` & Set language to german
+
 ### Options
 Option | Result
 ------ | ------
