@@ -80,7 +80,7 @@
      \RequirePackage{listingsutf8}\fi       % UTF-8 Input support for listings
 
 % ## Skip lines instead of indents after a blank line
-\ifparskip\RequirePackage[parfill]{parskip}\fi
+\ifparskip\RequirePackage{parskip}\fi
 
 % ---------------
 % :: Variables ::
@@ -205,7 +205,7 @@
             \includegraphics[width=3cm]{images/logo-left.png}}{}\fi
     \end{minipage}
     \hfill
-    \begin{minipage}{.6\textwidth}
+    \begin{minipage}{.58\textwidth}
         ~\\\centering
         \if\relax\@myschool\relax\else      {\Large\@myschool}\fi
         \if\relax\@mydepartment\relax\else  ~\\\vspace{.5em}{\@mydepartment}    \fi
