@@ -288,7 +288,7 @@
         \chapter*{Abstract}
     }{  % German abstract by default
         \selectlanguage{ngerman}
-        \chapter*{Zusammenfassung}
+        \chapter*{Kurzreferat}
     }
 }{  \ifen\selectlanguage{english}\else\selectlanguage{ngerman}\fi}
 
