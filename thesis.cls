@@ -233,7 +233,7 @@
     \vfill  % Fill space between title header and project logo and headings
     \begin{center}
         \IfFileExists{images/logo.png}{
-            \includegraphics[height=4cm]{images/logo.png}
+            \includegraphics[height=3cm]{images/logo.png}
             \vskip 2em}{}   % Space between logo and headings if logo exists
         {\Large\textbf{
             \ifen Diploma Thesis \else Diplomarbeit \fi
