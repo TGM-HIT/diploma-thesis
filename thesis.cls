@@ -105,6 +105,7 @@
 \newcommand\myyear[1]{\renewcommand\@myyear{#1}}
 \newcommand\@currentauthor{}
 \newcommand\setauthor[1]{\renewcommand\@currentauthor{#1}}
+\newcommand\resetauthor{\renewcommand\@currentauthor{\theauthors}}
 
 % -------------------
 % :: Configuration ::
@@ -147,9 +148,7 @@
 \makeatletter
 \fancyhead[L]{\small \thetitle}
 \fancyhead[R]{\small \nouppercase{\leftmark}}
-% One might want to check if \@currentauthor is set using:
-% \if\relax\@currentauthor\relax\theauthor\else\@currentauthor\fi
-\fancyfoot[L]{\small \@currentauthor}
+\fancyfoot[L]{\small \if\relax\@currentauthor\relax\theauthors\else\@currentauthor\fi}
 \fancyfoot[R]{\small \thepage~/~{\lastpageref*{VeryLastPage}}}
 \makeatother
 
@@ -158,6 +157,17 @@
 % Add glossary / bibliography entries if they exist
 \IfFileExists{glossaries.tex}{\input{glossaries}\makeglossaries}{}
 \IfFileExists{bibliography.bib}{\addbibresource{bibliography}}{}
+
+% Make empty book pages lose their headers and footers
+% http://mirror.kumi.systems/ctan/macros/latex/contrib/fancyhdr/fancyhdr.pdf
+\makeatletter
+\def\cleardoublepage{
+    \clearpage\if@twoside\ifodd\c@page\else
+        \thispagestyle{empty}\hbox{}\newpage
+        \if@twocolumn\hbox{}\newpage\fi
+    \fi\fi
+}
+\makeatother
 
 % :: Hacks ::
 \raggedbottom               % Stop book documentclass from fucking with paragraph spacing..
@@ -288,7 +298,8 @@
         \chapter*{Abstract}
     }{  % German abstract by default
         \selectlanguage{ngerman}
-        \chapter*{Kurzreferat}
+        % Nomenklatur nach https://www.htl.at/htlat/diplom-und-abschlussarbeiten/diplomarbeiten
+        \chapter*{Kurzfassung}
     }
 }{  \ifen\selectlanguage{english}\else\selectlanguage{ngerman}\fi}
 
