@@ -65,7 +65,7 @@
 \RequirePackage{outlines, enumitem}
 \RequirePackage{booktabs, tabularx}
 \RequirePackage{listings}   % Required by totalcount also without minted
-\RequirePackage{graphicx, subcaption}
+\RequirePackage{graphicx, subcaption, pdfpages}
 \RequirePackage[font=small]{caption}
 \RequirePackage{accsupp}    % [1]
 \RequirePackage[acronym, xindy, toc, nohypertypes={acronym,notation}]{glossaries}
@@ -357,4 +357,6 @@
     \iftotalfigures\listoffigures\fi    % Figures
     \iftotaltables\listoftables\fi      % Tables
     \iftotallistings\listoflistings\fi  % Listings
+
+    \IfFileExists{chapters/anhang.tex}{\include{chapters/anhang}}{}
 }

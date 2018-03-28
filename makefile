@@ -103,17 +103,17 @@ endif
 	@echo -e "$(ecG)Build $(ecP)$(f) $(eR)into $(ecP)$(BUILD)$(eR)"
 	@echo -e "$(ecC)First$(eR) run for simple compilation"
 	@$(MAKE) pdf
-ifneq (,find $(BUILD)/$(f).glo)
-	@$(MAKE) glossaries
-	@echo -e "$(ecC)First$(eR) progressive run for $(ecC)makeglossaries$(eR)"
-	@$(MAKE) pdf
-endif
 ifneq (,find *.bib)
 	$(MAKE) bibtex
 	@echo -e "$(ecC)First$(eR) progressive run for $(ecC)bibtex$(eR)"
 	$(MAKE) pdf
 	@echo -e "$(ecC)Second$(eR) progressive run for $(ecC)bibtex$(eR)"
 	$(MAKE) pdf
+endif
+ifneq (,find $(BUILD)/$(f).glo)
+	@$(MAKE) glossaries
+	@echo -e "$(ecC)First$(eR) progressive run for $(ecC)makeglossaries$(eR)"
+	@$(MAKE) pdf
 endif
 	@$(MAKE) clean
 
