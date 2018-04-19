@@ -1,7 +1,7 @@
-% ====================
-% :: Diploma Thesis ::
-% ====================
-%
+% ==================== %
+% :: Diploma Thesis :: %
+% ==================== %
+
 % LaTeX class for diploma theses designed for the HIT department at TGM Vienna.
 % Thanks to @chro and @mborko for the previous templates!
 %
@@ -14,9 +14,9 @@
 
 
 \ProvidesClass{thesis}
-% -------------
-% :: Options ::
-% -------------
+% ------------- %
+% :: Options :: %
+% ------------- %
 \newif\ifen\enfalse             % English language
 \DeclareOption{en}{\entrue}
 \newif\ifcolor\colortrue        % Do not color links
@@ -31,7 +31,7 @@
 \DeclareOption{natbib}{\bibtrue\natbibtrue}
 \newif\ifparskip\parskipfalse   % Lineskip instead of indent after blank line
 \DeclareOption{parskip}{\parskiptrue}
-\newif\ifsans\sansfalse          % Use sans serif fonts
+\newif\ifsans\sansfalse         % Use sans serif fonts
 \DeclareOption{sans}{\sanstrue}
 % Pass options
 \ProcessOptions \relax
@@ -40,13 +40,12 @@
     \LoadClass[a4paper,11pt]{book}   % Crimson
 }{  \LoadClass[a4paper,10pt]{book}}  % Default
 
-% --------------
-% :: Packages ::
-% --------------
+% -------------- %
+% :: Packages :: %
+% -------------- %
 \iffonts
     \ifsans \renewcommand*\familydefault{\sfdefault}
-    \else   \IfFileExists{crimson.sty}{\RequirePackage{crimson}}{}
-    \fi
+    \else   \IfFileExists{crimson.sty}{\RequirePackage{crimson}}{}\fi
     \IfFileExists{inconsolate.sty}{\RequirePackage{inconsolata}}{}
 \fi
 
@@ -180,7 +179,7 @@
 \newcolumntype{Y}{p{.5\textwidth}}  % cell with 50% of text width for TabularX
 
 % ------------
-% :: Makros ::
+% :: Macros ::
 % ------------
 
 % :: Authors ::
