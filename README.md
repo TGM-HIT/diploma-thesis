@@ -12,9 +12,12 @@ Option | Result
 `en` | Set main document langauge to english
 `minted` | Add and configure minted package
 `natbib` | Change bibtex backend to natbib
+`nocolor` | Do not color hyperlinks
 `nofonts` | Change font to default
 `nologos` | Disable logos on titlepage
 `oneside` | Do not use multiple pages for chapters
+`parskip` | Skip a line instead of indenting the next one after blank line
+`sans` | Use sans-serif font
 
 ### Variables
 Variables can be set as commands like
