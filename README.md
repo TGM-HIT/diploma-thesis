@@ -1,12 +1,19 @@
 ## A Latex Thesis Template
 
 ### Commands
+
 Option | Result
 ------ | ------
 `\selectlanguage{english}` & Set language to english
 `\selectlanguage{ngerman}` & Set language to german
 
 ### Options
+
+Options are added to the `\documentclass` command usually found in `main.tex`.
+```latex
+\documentclass[<option1>,<option2>,...]{thesis}
+```
+
 Option | Result
 ------ | ------
 `en` | Set main document langauge to english
@@ -20,7 +27,8 @@ Option | Result
 `sans` | Use sans-serif font
 
 ### Variables
-Variables can be set as commands like
+
+Variables are set as commands with their parameter being the variable value.
 ```tex
 \myvariable{value}
 ```
