@@ -33,6 +33,8 @@
 \DeclareOption{parskip}{\parskiptrue}
 \newif\ifsans\sansfalse         % Use sans serif fonts
 \DeclareOption{sans}{\sanstrue}
+\newif\ifdoublesided\doublesidedfalse   % Print double-sided
+\DeclareOption{doublesided}{\doublesidedtrue}
 % Pass options
 \ProcessOptions \relax
 % Load article class
@@ -145,10 +147,17 @@
 \pagestyle{fancy}\fancyhf{}
 
 \makeatletter
+\ifdoublesided
+\fancyhead[LO, RE]{\small \thetitle}
+\fancyhead[RO, LE]{\small \nouppercase{\leftmark}}
+\fancyfoot[C]{\small \if\relax\@currentauthor\relax\theauthors\else\@currentauthor\fi}
+\fancyfoot[RO, LE]{\small \thepage~/~{\lastpageref*{VeryLastPage}}}
+\else
 \fancyhead[L]{\small \thetitle}
 \fancyhead[R]{\small \nouppercase{\leftmark}}
 \fancyfoot[L]{\small \if\relax\@currentauthor\relax\theauthors\else\@currentauthor\fi}
 \fancyfoot[R]{\small \thepage~/~{\lastpageref*{VeryLastPage}}}
+\fi
 \makeatother
 
 \renewcommand{\footrulewidth}{\headrulewidth}
