@@ -33,6 +33,8 @@
 \DeclareOption{parskip}{\parskiptrue}
 \newif\ifsans\sansfalse         % Use sans serif fonts
 \DeclareOption{sans}{\sanstrue}
+\newif\ifnocitesort\nocitesortfalse         % Sort cite by appearance language
+\DeclareOption{nocitesort}{\nocitesorttrue}
 % Pass options
 \ProcessOptions \relax
 % Load article class
@@ -72,7 +74,8 @@
 \RequirePackage{pgffor, xparse}     % Easier creation of commands with arguments
 
 \ifnatbib\RequirePackage{natbib}    % Bibliography
-\else\RequirePackage[backend=bibtex]{biblatex}\fi
+\else\ifnocitesort\RequirePackage[backend=bibtex,sorting=none]{biblatex} %sorting=none makes the cites appear in order of appearence
+\else\RequirePackage[backend=bibtex]{biblatex}\fi\fi
 
 \ifminted\RequirePackage[newfloat]{minted}  % Listings
 \else\RequirePackage{listing}               % Already defined by minted itself
