@@ -25,6 +25,7 @@ Option | Result
 `oneside` | Do not use multiple pages for chapters
 `parskip` | Skip a line instead of indenting the next one after blank line
 `sans` | Use sans-serif font
+`nocitesort` | Don't sort citations alphabetically
 
 ### Variables
 
