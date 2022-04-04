@@ -148,10 +148,10 @@
 \pagestyle{fancy}\fancyhf{}
 
 \makeatletter
-\fancyhead[L]{\small \thetitle}
-\fancyhead[R]{\small \nouppercase{\leftmark}}
-\fancyfoot[L]{\small \if\relax\@currentauthor\relax\theauthors\else\@currentauthor\fi}
-\fancyfoot[R]{\small \thepage~/~{\lastpageref*{VeryLastPage}}}
+\fancyhead[LO,RE]{\small \thetitle}
+\fancyhead[RO,LE]{\small \nouppercase{\leftmark}}
+\fancyfoot[LO,RE]{\small \if\relax\@currentauthor\relax\theauthors\else\@currentauthor\fi}
+\fancyfoot[RO,LE]{\small \thepage~/~{\lastpageref*{VeryLastPage}}}
 \makeatother
 
 \renewcommand{\footrulewidth}{\headrulewidth}
