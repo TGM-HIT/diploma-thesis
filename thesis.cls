@@ -266,10 +266,10 @@
 \newcommand\makedeclaration{
     \ifen   % Prints english version
         \chapter*{Statutory declaration}
-        I declare that I have authored this thesis independently, that I have not used other than the declared sources and that I have explicitly marked all material which has been quoted either literally or by content from the used sources.
+        I declare that I have authored this thesis independently, that I have not used other than the declared sources and that I have explicitly marked all material which has been quoted either literally or by content from the used sources. I also used the following generative AI tools [e.g. ChatGPT, Grammarly Go, Midjourney] for the following purpose: [Please state area of application here].
     \else
         \chapter*{Eidesstattliche Erklärung}
-        Ich erkläre an Eides statt, dass ich die vorliegende Arbeit selbstständig verfasst, andere als die angegebenen Quellen/Hilfsmittel nicht benutzt und die den benutzten Quellen wörtlich und inhaltlich entnommenen Stellen als solche kenntlich gemacht habe.
+        Ich erkläre an Eides statt, dass ich die vorliegende Arbeit selbstständig verfasst, andere als die angegebenen Quellen/Hilfsmittel nicht benutzt und die den benutzten Quellen wörtlich und inhaltlich entnommenen Stellen als solche kenntlich gemacht habe.  Für die Erstellung der Arbeit habe ich auch folgende Hilfsmittel generativer KI-Tools [z. B. ChatGPT, Grammarly Go, Midjourney] zu folgendem Zweck verwendet: [Bitte hier Einsatzgebiet anführen.].
     \fi   % Print german version
     \vspace{3em}~\\
     \ifauthor\foreach \n in \theauthors{
