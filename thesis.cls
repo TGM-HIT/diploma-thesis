@@ -62,7 +62,7 @@
 \RequirePackage{fancyhdr, float, multicol, multirow, titling}
 \RequirePackage[marginal, norule, perpage]{footmisc}
 \RequirePackage[dvipsnames]{xcolor}
-\RequirePackage{hyperref, url, pageslts, nameref}
+\RequirePackage{hyperref, pageslts, nameref}
 \RequirePackage{outlines, enumitem}
 \RequirePackage{booktabs, tabularx}
 \RequirePackage{listings}   % Required by totalcount also without minted
@@ -74,8 +74,17 @@
 \RequirePackage{pgffor, xparse}     % Easier creation of commands with arguments
 
 \ifnatbib\RequirePackage{natbib}    % Bibliography
-\else\ifnocitesort\RequirePackage[backend=bibtex,sorting=none]{biblatex} %sorting=none makes the cites appear in order of appearence
-\else\RequirePackage[backend=bibtex]{biblatex}\fi\fi
+\else\ifnocitesort\RequirePackage[backend=bibtex,sorting=none,style=ieee]{biblatex} %sorting=none makes the cites appear in order of appearence
+\else\RequirePackage[backend=bibtex,style=ieee]{biblatex}\fi\fi
+
+% auto input n.d. if no date of creation is given
+\renewbibmacro*{date}{%
+  \iffieldundef{year}
+    {\bibstring{nodate}}
+    {\printdate}}
+
+% Package to linebreak a url at every possible  place   
+\RequirePackage{xurl}
 
 \ifminted\RequirePackage[newfloat]{minted}  % Listings
 \else\RequirePackage{listing}               % Already defined by minted itself
