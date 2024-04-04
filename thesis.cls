@@ -74,8 +74,8 @@
 \RequirePackage{pgffor, xparse}     % Easier creation of commands with arguments
 
 \ifnatbib\RequirePackage{natbib}    % Bibliography
-\else\ifnocitesort\RequirePackage[backend=bibtex,sorting=none]{biblatex} %sorting=none makes the cites appear in order of appearence
-\else\RequirePackage[backend=bibtex]{biblatex}\fi\fi
+\else\ifnocitesort\RequirePackage[backend=bibtex,sorting=none,style=ieee]{biblatex} %sorting=none makes the cites appear in order of appearence
+\else\RequirePackage[backend=bibtex,style=ieee]{biblatex}\fi\fi
 
 \ifminted\RequirePackage[newfloat]{minted}  % Listings
 \else\RequirePackage{listing}               % Already defined by minted itself
