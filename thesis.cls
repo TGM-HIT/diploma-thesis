@@ -62,7 +62,7 @@
 \RequirePackage{fancyhdr, float, multicol, multirow, titling}
 \RequirePackage[marginal, norule, perpage]{footmisc}
 \RequirePackage[dvipsnames]{xcolor}
-\RequirePackage{hyperref, url, pageslts, nameref}
+\RequirePackage{hyperref, pageslts, nameref}
 \RequirePackage{outlines, enumitem}
 \RequirePackage{booktabs, tabularx}
 \RequirePackage{listings}   % Required by totalcount also without minted
@@ -82,6 +82,9 @@
   \iffieldundef{year}
     {\bibstring{nodate}}
     {\printdate}}
+
+% Package to linebreak a url at every possible  place   
+\RequirePackage{xurl}
 
 \ifminted\RequirePackage[newfloat]{minted}  % Listings
 \else\RequirePackage{listing}               % Already defined by minted itself
