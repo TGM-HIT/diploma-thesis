@@ -4,8 +4,10 @@
 
 Option | Result
 ------ | ------
-`\selectlanguage{english}` & Set language to english
-`\selectlanguage{ngerman}` & Set language to german
+`\selectlanguage{english}` | Set language to english*
+`\selectlanguage{ngerman}` | Set language to german
+
+*You also should set the `en` Option. See below.
 
 ### Options
 
